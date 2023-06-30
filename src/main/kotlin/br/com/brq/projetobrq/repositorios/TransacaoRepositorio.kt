@@ -1,7 +1,6 @@
 package br.com.brq.projetobrq.repositorios
 
-import br.com.brq.projetobrq.controlador.resposta.ListaTransacoes
-import br.com.brq.projetobrq.modelo.Transacao
+import br.com.brq.projetobrq.modelos.Transacao
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import java.time.LocalDate

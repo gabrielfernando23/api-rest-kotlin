@@ -3,7 +3,6 @@ package br.com.brq.projetobrq.servicos
 import br.com.brq.projetobrq.controlador.requisicao.DadosPesquisaTransacoes
 import br.com.brq.projetobrq.controlador.resposta.ListaTransacoes
 import br.com.brq.projetobrq.excecao.ValidacaoErro
-import br.com.brq.projetobrq.modelo.Transacao
 import br.com.brq.projetobrq.repositorios.TransacaoRepositorio
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,17 +13,17 @@ class PesquisaServico(val transacaoRepositorio: TransacaoRepositorio) {
 
     fun pesquisarTransacoes(dados: DadosPesquisaTransacoes): MutableList<ListaTransacoes> {
         dados.let {
-            if (it.idCliente == "") {
+            if (it.idCliente == "" || it.idCliente == null) {
                 it.idCliente = null
-            } else if (it.idCliente!!.length < 11 || it.idCliente!!.length > 14 || it.idCliente!!.length in 12..13) {
+            }else if (it.idCliente!!.length < 11 || it.idCliente!!.length > 14 || it.idCliente!!.length in 12..13) {
                 throw ValidacaoErro("CPF/CNPJ inválido")
             }
-            if (it.tipoPessoa == "") {
+            if (it.tipoPessoa == "" || it.tipoPessoa == null) {
                 it.tipoPessoa = null
             } else if (it.tipoPessoa!! != "PESSOA_FISICA" && it.tipoPessoa!! != "PESSOA_JURIDICA") {
                 throw ValidacaoErro("Tipo de pessoa inválido")
             }
-            if (it.descricaoTransacao == "") {
+            if (it.descricaoTransacao == "" || it.descricaoTransacao == null) {
                 it.descricaoTransacao = null
             } else if (!it.descricaoTransacao!!.equals(
                     "SAQUE",

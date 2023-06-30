@@ -2,7 +2,7 @@ package br.com.brq.projetobrq.controlador
 
 import br.com.brq.projetobrq.controlador.requisicao.DadosAtualizacaoCliente
 import br.com.brq.projetobrq.excecao.ValidacaoErro
-import br.com.brq.projetobrq.modelo.Cliente
+import br.com.brq.projetobrq.modelos.Cliente
 import br.com.brq.projetobrq.servicos.ClienteServicos
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping

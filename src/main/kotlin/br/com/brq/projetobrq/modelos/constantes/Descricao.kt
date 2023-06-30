@@ -1,4 +1,4 @@
-package br.com.brq.projetobrq.modelo.constantes
+package br.com.brq.projetobrq.modelos.constantes
 
 enum class Descricao {
     SAQUE,

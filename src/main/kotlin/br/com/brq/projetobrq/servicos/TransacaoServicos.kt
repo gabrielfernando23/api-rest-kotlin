@@ -3,7 +3,7 @@ package br.com.brq.projetobrq.servicos
 import br.com.brq.projetobrq.controlador.resposta.ListaTransacoes
 import br.com.brq.projetobrq.controlador.requisicao.DadosCadastroTransacao
 import br.com.brq.projetobrq.excecao.ValidacaoErro
-import br.com.brq.projetobrq.modelo.Transacao
+import br.com.brq.projetobrq.modelos.Transacao
 import br.com.brq.projetobrq.repositorios.ClienteRepositorio
 import br.com.brq.projetobrq.repositorios.TipoTransacaoRepositorio
 import br.com.brq.projetobrq.repositorios.TransacaoRepositorio
@@ -25,17 +25,18 @@ class TransacaoServicos(
         if (!tipoTransacaoRepositorio.existsById(dados.tipoTransacao)) {
             throw ValidacaoErro("Tipo de transação inválido")
         }
-        if (!clienteRepositorio.existsById(dados.id_cliente.toString())) {
+        if (!clienteRepositorio.existsById(dados.id_cliente)) {
             throw ValidacaoErro("Cliente inválido")
         }
+        val cliente = clienteRepositorio.findById(dados.id_cliente).get()
         val transacao = Transacao(
-            id = null,
+            id = let{if (dados.id == null) null else dados.id},
             valor = dados.valor,
             idTipoTransacao = dados.tipoTransacao,
-            cliente = let { clienteRepositorio.findById(dados.id_cliente).get() }
+            cliente = cliente
         )
         repositorio.save(transacao)
-        val cliente = clienteRepositorio.findById(dados.id_cliente).get()
+
         val tipoTransacao = tipoTransacaoRepositorio.findById(dados.tipoTransacao).get()
         return """
             Transação cadastrada com sucesso!

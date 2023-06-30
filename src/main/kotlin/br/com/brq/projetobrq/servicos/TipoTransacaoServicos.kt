@@ -1,9 +1,9 @@
 package br.com.brq.projetobrq.servicos
 
 import br.com.brq.projetobrq.controlador.requisicao.DadosCadastroTipoTransacao
-import br.com.brq.projetobrq.modelo.constantes.Descricao
+import br.com.brq.projetobrq.modelos.constantes.Descricao
 import br.com.brq.projetobrq.excecao.ValidacaoErro
-import br.com.brq.projetobrq.modelo.TipoTransacao
+import br.com.brq.projetobrq.modelos.TipoTransacao
 import br.com.brq.projetobrq.repositorios.TipoTransacaoRepositorio
 import org.springframework.stereotype.Service
 
@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service
 class TipoTransacaoServicos(private val repositorio: TipoTransacaoRepositorio) {
 
     fun cadastrar(descricao: DadosCadastroTipoTransacao): String {
-        println(descricao.descricao)
-        if (!(descricao.descricao == Descricao.SAQUE.toString() || descricao.descricao == Descricao.DEPOSITO.toString() || descricao.descricao == Descricao.TRANSFERENCIA.toString() || descricao.descricao == Descricao.EMPRESTIMO.toString())) {
+        if (!(descricao.descricao.equals(Descricao.SAQUE.toString(), ignoreCase = true) || descricao.descricao.equals(
+                Descricao.DEPOSITO.toString(),
+                ignoreCase = true
+            ) || descricao.descricao.equals(
+                Descricao.TRANSFERENCIA.toString(),
+                ignoreCase = true
+            ) || descricao.descricao.equals(Descricao.EMPRESTIMO.toString(), ignoreCase = true))
+        ) {
             throw ValidacaoErro("Tipo de transação inválido")
         } else {
             if (repositorio.existsByDescricao(descricao.descricao)) {
@@ -39,7 +45,17 @@ class TipoTransacaoServicos(private val repositorio: TipoTransacaoRepositorio) {
         if (!repositorio.existsById(dados.id!!)) {
             throw ValidacaoErro("Id não encontrado")
         }
-        if (!(dados.descricao == Descricao.SAQUE.toString() || dados.descricao == Descricao.DEPOSITO.toString() || dados.descricao == Descricao.TRANSFERENCIA.toString() || dados.descricao == Descricao.EMPRESTIMO.toString())) {
+        if (!(dados.descricao.equals(
+                Descricao.SAQUE.toString(),
+                ignoreCase = true
+            ) || dados.descricao.equals(
+                Descricao.DEPOSITO.toString(),
+                ignoreCase = true
+            ) || dados.descricao.equals(
+                Descricao.TRANSFERENCIA.toString(),
+                ignoreCase = true
+            ) || dados.descricao.equals(Descricao.EMPRESTIMO.toString(), ignoreCase = true))
+        ) {
             throw ValidacaoErro("Tipo de transação inválido")
         }
         if (repositorio.existsByDescricao(dados.descricao)) {
@@ -53,13 +69,13 @@ class TipoTransacaoServicos(private val repositorio: TipoTransacaoRepositorio) {
             Id: ${tipoTransacao.getId()}
             Descrição: ${tipoTransacao.getDescricao()}
             """.trimIndent()
-       }
+    }
 
     fun deletar(id: Long): String {
         if (!repositorio.existsById(id)) {
             throw ValidacaoErro("Id não encontrado")
         }
-        if(repositorio.existeTransacaoPorId(id)) {
+        if (repositorio.existeTransacaoPorId(id)) {
             throw ValidacaoErro("Tipo de transação não pode ser deletado pois está sendo utilizado")
         }
         repositorio.deleteById(id)

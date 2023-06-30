@@ -1,11 +1,11 @@
 package br.com.brq.projetobrq.servicos
 
-import br.com.brq.projetobrq.modelo.constantes.TipoPessoa
+import br.com.brq.projetobrq.modelos.constantes.TipoPessoa
 import br.com.brq.projetobrq.controlador.requisicao.DadosAtualizacaoCliente
 import br.com.brq.projetobrq.controlador.resposta.ListaClientes
 import br.com.brq.projetobrq.controlador.resposta.ListaTransacoes
 import br.com.brq.projetobrq.excecao.ValidacaoErro
-import br.com.brq.projetobrq.modelo.Cliente
+import br.com.brq.projetobrq.modelos.Cliente
 import br.com.brq.projetobrq.repositorios.ClienteRepositorio
 import org.springframework.stereotype.Service
 import java.time.format.DateTimeFormatter
@@ -42,8 +42,8 @@ class ClienteServicos(private val repositorio: ClienteRepositorio) {
             """.trimIndent()
             }
         }
-
     }
+
 
     fun listar(): MutableList<ListaClientes> {
         val listaDeClientes = repositorio.findAll()
@@ -56,9 +56,9 @@ class ClienteServicos(private val repositorio: ClienteRepositorio) {
         for (i in listaDeClientes) {
             val cliente =
                 ListaClientes(
-                    i.getId(),
+                    let { if (i.getId().length == 11) formatarCPF(i.getId()) else formatarCNPJ(i.getId())},
                     i.getNome(),
-                    i.getTelefone(),
+                    let{ formatarTelefone(i.getTelefone())},
                     i.getTipoPessoa(),
                     let {
                         val listaTransacoes = mutableListOf<ListaTransacoes>()
@@ -106,7 +106,7 @@ class ClienteServicos(private val repositorio: ClienteRepositorio) {
     fun deletar(id: String) {
         if (repositorio.existsById(id)) {
             val cliente = repositorio.findById(id).get()
-            if (!cliente.getTransacoes().isEmpty()) {
+            if (cliente.getTransacoes().isNotEmpty()) {
                 throw ValidacaoErro("Usuário possui transações e não pode ser deletado")
             }
             repositorio.deleteById(id)
@@ -137,8 +137,8 @@ class ClienteServicos(private val repositorio: ClienteRepositorio) {
 
     fun formatarTelefone(telefone: String): String {
         val ddd = telefone.substring(0, 2)
-        val prefixo = telefone.substring(2, 6)
-        val sufixo = telefone.substring(6)
+        val prefixo = telefone.substring(2, 7)
+        val sufixo = telefone.substring(7)
 
         return "($ddd) $prefixo-$sufixo"
     }

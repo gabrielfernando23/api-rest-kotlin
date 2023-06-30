@@ -1,6 +1,6 @@
-package br.com.brq.projetobrq.modelo
+package br.com.brq.projetobrq.modelos
 
-import br.com.brq.projetobrq.modelo.constantes.TipoPessoa
+import br.com.brq.projetobrq.modelos.constantes.TipoPessoa
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany

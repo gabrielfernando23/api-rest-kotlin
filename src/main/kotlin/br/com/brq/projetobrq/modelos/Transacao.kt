@@ -1,10 +1,8 @@
-package br.com.brq.projetobrq.modelo
+package br.com.brq.projetobrq.modelos
 
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
 
 @Entity
 class Transacao(

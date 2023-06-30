@@ -1,4 +1,4 @@
-package br.com.brq.projetobrq.modelo
+package br.com.brq.projetobrq.modelos
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
